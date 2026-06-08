@@ -1,1 +1,1 @@
-mask/FSSW_K98.mat filter=lfs diff=lfs merge=lfs -text
+Masks/FSSW_K98.mat filter=lfs diff=lfs merge=lfs -text
