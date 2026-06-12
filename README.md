@@ -1,6 +1,6 @@
 # iBAM MATLAB Package
 
-This repository provides the core MATLAB implementation of **implicit Brain Activity Mapping (iBAM)**, a framework designed to detect brain neural activations from task fMRI data.
+This repository provides the core MATLAB implementation of **implicit Brain Activity Mapping (iBAM)**, a framework designed to detect implicit brain neural activations from task fMRI data.
 
 ## Overview
 
