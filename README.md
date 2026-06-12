@@ -4,17 +4,22 @@ This repository provides the core MATLAB implementation of **implicit Brain Acti
 
 ## Overview
 
-iBAM is intended to identify brain activations that may not be fully captured by conventional task timing-based activation mapping. The core program uses task fMRI data as the primary input for brain activation detection. Resting-state fMRI data are also required to construct the null models used for statistical inference.
+The unique methodological contribution of iBAM in brain science resides in its capacity to map brain activations that elude explicit experimental manipulations. Conventional General Linear Model (GLM)-based activation mapping is structurally constrained by two limitations: first, its reliance on strict temporal coupling between stimuli and neural dynamics renders it blind to autonomous, endogenous neural processes that are partially decoupled from external stimuli; second, its dependence on aggregating signal segments across multiple repeated trials to counteract noise in activation detection "washes out" the trial-varied brain dynamics in complex cognition. 
+
+iBAM transcends these constraints through a dual technical breakthrough:
+
+1. **Task Timing-Independent Modeling**: By identifying latent signal modes, iBAM emancipates functional activation detection from traditional task timing-based fMRI signal modeling.
+2. **Single-Trial Sensitivity:** Its single-trial sensitivity allows for the capture of transient, trial-specific neural activations without the "washing-out" effect inherent to multi-trial averaging.
+
+The core program uses task fMRI data as the primary input for brain activation detection, while resting-state fMRI data are utilized to construct the null models required for statistical inference.
 
 ## Input data
 
 The program requires two types of fMRI data:
 
-1. **Task fMRI data**  
-   Used for detecting brain neural activations.
+1. **Task fMRI data** Used for detecting brain neural activations.
 
-2. **Resting-state fMRI data**  
-   Used for constructing null models.
+2. **Resting-state fMRI data** Used for constructing null models.
 
 Before running iBAM, all fMRI data should first be preprocessed using either:
 
@@ -25,7 +30,11 @@ After standard preprocessing, the data should further undergo the **ICE-based fi
 
 ## Dependencies
 
-This package is implemented in MATLAB and requires the following external toolboxes.
+This package is implemented in MATLAB and requires the following external toolboxes and folders to be added to the MATLAB path.
+
+### Required Path Configurations
+
+- **Masks Folder** Please ensure that the **`Masks`** folder included in this repository is added to your MATLAB path before running any scripts.
 
 ### SPM12
 
@@ -45,29 +54,10 @@ Please download the toolbox and add it to the MATLAB path before running iBAM.
 
 ## Recommended workflow
 
-A typical iBAM workflow consists of the following steps:
+1. **For HCP Data Processing:** If you are running the pipeline on HCP (Human Connectome Project) data, please use the code provided in the **`iBAMpipeline_HCP`** directory. Carefully read the instructions within that folder before proceeding. Note that to accommodate the specific file organization of the HCP dataset and optimize computational efficiency, certain parts of this code include hard-coded parameters. Therefore, if you intend to run your own custom (non-HCP) data, you should either modify this code accordingly or refer to the alternative pipeline below.
 
-1. Preprocess task and resting-state fMRI data using fMRIPrep or the HCP minimal preprocessing pipelines.
-2. Apply the ICE-based filtering procedure described in the manuscript.
-3. Run `calculateMl_SWrun3.m` to calculate the MI map from the task fMRI data.
-4. Run `generateNullModels_SWrun3.m` to generate null models from the resting-state fMRI data.
-5. Run `calculate_Zmap.m` to perform statistical inference and generate the final Z map.
-
-## Core scripts
-
-### `calculateMl_SWrun.m`
-
-This script calculates the MI map from the input task fMRI data. The resulting MI map represents the spatial distribution of mode intensity estimated by the iBAM framework and serves as the primary activation-related map for subsequent statistical inference.
-
-### `generateNullModels_SWrun.m`
-
-This script generates null models using resting-state fMRI data. These null models provide the reference distribution required to statistically evaluate whether the observed MI values from task fMRI data exceed the expected background level.
-
-### `calculate_Zmap.m`
-
-This script performs statistical inference by comparing the task-derived MI map with the null models. The output is a Z map that quantifies statistically significant brain activations detected by iBAM.
+2. **For Language Study Data & Custom Datasets:** If you are analyzing data related to language studies, please use the code in the **`iBAMpipeline_Language`** directory. Furthermore, if you have your own independently collected datasets that need to be processed, it is **strongly recommended** to use the scripts in this folder as your primary pipeline.
 
 ## Notes
 
 This repository contains the core code used for implementing the iBAM framework. Users should refer to the associated manuscript for the detailed methodological description, including preprocessing, ICE-based filtering, MI map calculation, null model construction, and statistical inference procedures.
-
